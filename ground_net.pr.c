@@ -4,7 +4,7 @@
 
 
 /* This variable carries the header into the object file */
-const char ground_net_pr_c [] = "MIL_3_Tfile_Hdr_ 145A 30A modeler 7 66E3DF5D 66E3DF5D 1 ray-laptop 28918 0 0 none none 0 0 none 0 0 0 0 0 0 0 0 1bcc 1                                                                                                                                                                                                                                                                                                                                                                                                         ";
+const char ground_net_pr_c [] = "MIL_3_Tfile_Hdr_ 145A 30A modeler 7 66EA993A 66EA993A 1 ray-laptop 28918 0 0 none none 0 0 none 0 0 0 0 0 0 0 0 1bcc 1                                                                                                                                                                                                                                                                                                                                                                                                         ";
 #include <string.h>
 
 
@@ -57,12 +57,7 @@ typedef struct
 	Objid	                  		my_id                                           ;
 	Objid	                  		my_node_id                                      ;
 	int	                    		type                                            ;	/* rcv pk type */
-	int	                    		interactive_id                                  ;
-	int	                    		to_interact_next_hop                            ;	/* the next hop to the interact node */
-	int	                    		interact_pk_num                                 ;	/* the Num of the pk */
 	int	                    		topo[24][24]                                    ;	/* 0 or 1 for the net topo */
-	int	                    		link_interact_pk_num                            ;	/* pk num of interact collection */
-	Evhandle	               		evh                                             ;	/* time out self intrpt */
 	int	                    		node_num                                        ;
 	int	                    		topo_address[24][3]                             ;
 	} ground_net_state;
@@ -71,12 +66,7 @@ typedef struct
 #define my_id                   		op_sv_ptr->my_id
 #define my_node_id              		op_sv_ptr->my_node_id
 #define type                    		op_sv_ptr->type
-#define interactive_id          		op_sv_ptr->interactive_id
-#define to_interact_next_hop    		op_sv_ptr->to_interact_next_hop
-#define interact_pk_num         		op_sv_ptr->interact_pk_num
 #define topo                    		op_sv_ptr->topo
-#define link_interact_pk_num    		op_sv_ptr->link_interact_pk_num
-#define evh                     		op_sv_ptr->evh
 #define node_num                		op_sv_ptr->node_num
 #define topo_address            		op_sv_ptr->topo_address
 
@@ -409,12 +399,7 @@ _op_ground_net_terminate (OP_SIM_CONTEXT_ARG_OPT)
 #undef my_id
 #undef my_node_id
 #undef type
-#undef interactive_id
-#undef to_interact_next_hop
-#undef interact_pk_num
 #undef topo
-#undef link_interact_pk_num
-#undef evh
 #undef node_num
 #undef topo_address
 
@@ -493,34 +478,9 @@ _op_ground_net_svar (void * gen_ptr, const char * var_name, void ** var_p_ptr)
 		*var_p_ptr = (void *) (&prs_ptr->type);
 		FOUT
 		}
-	if (strcmp ("interactive_id" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->interactive_id);
-		FOUT
-		}
-	if (strcmp ("to_interact_next_hop" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->to_interact_next_hop);
-		FOUT
-		}
-	if (strcmp ("interact_pk_num" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->interact_pk_num);
-		FOUT
-		}
 	if (strcmp ("topo" , var_name) == 0)
 		{
 		*var_p_ptr = (void *) (prs_ptr->topo);
-		FOUT
-		}
-	if (strcmp ("link_interact_pk_num" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->link_interact_pk_num);
-		FOUT
-		}
-	if (strcmp ("evh" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->evh);
 		FOUT
 		}
 	if (strcmp ("node_num" , var_name) == 0)

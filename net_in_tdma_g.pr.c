@@ -4,7 +4,7 @@
 
 
 /* This variable carries the header into the object file */
-const char net_in_tdma_g_pr_c [] = "MIL_3_Tfile_Hdr_ 145A 30A modeler 7 66E3DF61 66E3DF61 1 ray-laptop 28918 0 0 none none 0 0 none 0 0 0 0 0 0 0 0 1bcc 1                                                                                                                                                                                                                                                                                                                                                                                                         ";
+const char net_in_tdma_g_pr_c [] = "MIL_3_Tfile_Hdr_ 145A 30A modeler 7 66EA98DA 66EA98DA 1 ray-laptop 28918 0 0 none none 0 0 none 0 0 0 0 0 0 0 0 1bcc 1                                                                                                                                                                                                                                                                                                                                                                                                         ";
 #include <string.h>
 
 
@@ -77,80 +77,16 @@ typedef struct
 	/* Internal state tracking for FSM */
 	FSM_SYS_STATE
 	/* State Variables */
-	int	                    		my_offset                                       ;
-	double	                 		slot_length                                     ;
-	double	                 		tx_data_rate                                    ;
-	int	                    		intrpt_flag                                     ;
-	int	                    		num_pk_sent                                     ;
-	int	                    		num_pk_rcvd                                     ;
-	int	                    		num_bits_sent                                   ;
-	int	                    		num_bits_rcvd                                   ;
-	Stathandle	             		num_pk_sent_stat                                ;
-	Stathandle	             		global_pk_sent_stat                             ;
-	Stathandle	             		num_pk_rcvd_stat                                ;
-	Stathandle	             		global_pk_rcvd_stat                             ;
 	Objid	                  		my_node_id                                      ;
 	Objid	                  		my_id                                           ;
-	Stathandle	             		num_bits_sent_stat                              ;
-	Stathandle	             		global_bits_sent_stat                           ;
-	Stathandle	             		num_bits_rcvd_stat                              ;
-	Stathandle	             		global_bits_rcvd_stat                           ;
-	Stathandle	             		bits_sec_rcvd_stat                              ;
-	Stathandle	             		bits_sec_sent_stat                              ;
-	Stathandle	             		pk_sec_rcvd_stat                                ;
-	Stathandle	             		pk_sec_sent_stat                                ;
-	Stathandle	             		global_bits_sec_rcvd_stat                       ;
-	Stathandle	             		global_bits_sec_sent_stat                       ;
-	Stathandle	             		global_pk_sec_rcvd_stat                         ;
-	Stathandle	             		global_pk_sec_sent_stat                         ;
 	int	                    		my_address                                      ;
 	int	                    		type                                            ;
-	int	                    		my_nei_num                                      ;	/* neighbor number */
-	int	                    		my_nei[8][5]                                    ;	/* 0/1 neighbor ID */
-	int	                    		intact_ID                                       ;
-	Evhandle	               		evh11                                           ;
-	int	                    		cross_num                                       ;	/* num in cross pk(0x14) */
-	int	                    		location_x                                      ;
-	int	                    		location_y                                      ;
-	int	                    		location_z                                      ;
 	} net_in_tdma_g_state;
 
-#define my_offset               		op_sv_ptr->my_offset
-#define slot_length             		op_sv_ptr->slot_length
-#define tx_data_rate            		op_sv_ptr->tx_data_rate
-#define intrpt_flag             		op_sv_ptr->intrpt_flag
-#define num_pk_sent             		op_sv_ptr->num_pk_sent
-#define num_pk_rcvd             		op_sv_ptr->num_pk_rcvd
-#define num_bits_sent           		op_sv_ptr->num_bits_sent
-#define num_bits_rcvd           		op_sv_ptr->num_bits_rcvd
-#define num_pk_sent_stat        		op_sv_ptr->num_pk_sent_stat
-#define global_pk_sent_stat     		op_sv_ptr->global_pk_sent_stat
-#define num_pk_rcvd_stat        		op_sv_ptr->num_pk_rcvd_stat
-#define global_pk_rcvd_stat     		op_sv_ptr->global_pk_rcvd_stat
 #define my_node_id              		op_sv_ptr->my_node_id
 #define my_id                   		op_sv_ptr->my_id
-#define num_bits_sent_stat      		op_sv_ptr->num_bits_sent_stat
-#define global_bits_sent_stat   		op_sv_ptr->global_bits_sent_stat
-#define num_bits_rcvd_stat      		op_sv_ptr->num_bits_rcvd_stat
-#define global_bits_rcvd_stat   		op_sv_ptr->global_bits_rcvd_stat
-#define bits_sec_rcvd_stat      		op_sv_ptr->bits_sec_rcvd_stat
-#define bits_sec_sent_stat      		op_sv_ptr->bits_sec_sent_stat
-#define pk_sec_rcvd_stat        		op_sv_ptr->pk_sec_rcvd_stat
-#define pk_sec_sent_stat        		op_sv_ptr->pk_sec_sent_stat
-#define global_bits_sec_rcvd_stat		op_sv_ptr->global_bits_sec_rcvd_stat
-#define global_bits_sec_sent_stat		op_sv_ptr->global_bits_sec_sent_stat
-#define global_pk_sec_rcvd_stat 		op_sv_ptr->global_pk_sec_rcvd_stat
-#define global_pk_sec_sent_stat 		op_sv_ptr->global_pk_sec_sent_stat
 #define my_address              		op_sv_ptr->my_address
 #define type                    		op_sv_ptr->type
-#define my_nei_num              		op_sv_ptr->my_nei_num
-#define my_nei                  		op_sv_ptr->my_nei
-#define intact_ID               		op_sv_ptr->intact_ID
-#define evh11                   		op_sv_ptr->evh11
-#define cross_num               		op_sv_ptr->cross_num
-#define location_x              		op_sv_ptr->location_x
-#define location_y              		op_sv_ptr->location_y
-#define location_z              		op_sv_ptr->location_z
 
 /* These macro definitions will define a local variable called	*/
 /* "op_sv_ptr" in each function containing a FIN statement.	*/
@@ -211,11 +147,8 @@ net_in_tdma_g (OP_SIM_CONTEXT_ARG_OPT)
 		/* Temporary Variables */
 		Packet*	pkptr;
 		
-		Objid 	tx_id, comp_id, tx_ch_id; 
 		
 		int current_intrpt_type;
-		int i,j;
-		
 		/* End of Temporary Variables */
 
 
@@ -284,8 +217,6 @@ net_in_tdma_g (OP_SIM_CONTEXT_ARG_OPT)
 				FSM_PROFILE_SECTION_IN ("net_in_tdma_g [fr_rx enter execs]", state2_enter_exec)
 				{
 				int pk_id;
-				int call_id;
-				int time;
 				
 				pkptr =  op_pk_get (RX_IN_STRM);
 				op_pk_nfd_get(pkptr,"TYPE",&type);
@@ -357,45 +288,7 @@ net_in_tdma_g (OP_SIM_CONTEXT_ARG_OPT)
 void
 _op_net_in_tdma_g_diag (OP_SIM_CONTEXT_ARG_OPT)
 	{
-#if defined (OPD_ALLOW_ODB)
-#if !defined (VOSD_NO_FIN)
-	int _op_block_origin = __LINE__+1;
-#endif
-
-	FIN_MT (_op_net_in_tdma_g_diag ())
-
-	if (1)
-		{
-		/* Temporary Variables */
-		Packet*	pkptr;
-		
-		Objid 	tx_id, comp_id, tx_ch_id; 
-		
-		int current_intrpt_type;
-		int i,j;
-		
-		/* End of Temporary Variables */
-
-		/* Diagnostic Block */
-
-		BINIT
-		{
-		printf ("Object ID = %d Current Sim Time = %g\n", my_id, op_sim_time ());
-		printf ("My TDMA Offset = %d\n", my_offset);
-		printf ("Number of TDMA Slots = %d\n", num_slots);
-		printf ("Number of Packets Received = %d\n", num_pk_rcvd);
-		printf ("Number of Bits Received = %d\n", num_bits_rcvd);
-		printf ("Number of Packets Sent = %d\n", num_pk_sent);
-		printf ("Number of Bits Sent = %d\n", num_bits_sent);
-		
-		}
-
-		/* End of Diagnostic Block */
-
-		}
-
-	FOUT
-#endif /* OPD_ALLOW_ODB */
+	/* No Diagnostic Block */
 	}
 
 
@@ -419,42 +312,10 @@ _op_net_in_tdma_g_terminate (OP_SIM_CONTEXT_ARG_OPT)
 /* Undefine shortcuts to state variables to avoid */
 /* syntax error in direct access to fields of */
 /* local variable prs_ptr in _op_net_in_tdma_g_svar function. */
-#undef my_offset
-#undef slot_length
-#undef tx_data_rate
-#undef intrpt_flag
-#undef num_pk_sent
-#undef num_pk_rcvd
-#undef num_bits_sent
-#undef num_bits_rcvd
-#undef num_pk_sent_stat
-#undef global_pk_sent_stat
-#undef num_pk_rcvd_stat
-#undef global_pk_rcvd_stat
 #undef my_node_id
 #undef my_id
-#undef num_bits_sent_stat
-#undef global_bits_sent_stat
-#undef num_bits_rcvd_stat
-#undef global_bits_rcvd_stat
-#undef bits_sec_rcvd_stat
-#undef bits_sec_sent_stat
-#undef pk_sec_rcvd_stat
-#undef pk_sec_sent_stat
-#undef global_bits_sec_rcvd_stat
-#undef global_bits_sec_sent_stat
-#undef global_pk_sec_rcvd_stat
-#undef global_pk_sec_sent_stat
 #undef my_address
 #undef type
-#undef my_nei_num
-#undef my_nei
-#undef intact_ID
-#undef evh11
-#undef cross_num
-#undef location_x
-#undef location_y
-#undef location_z
 
 #undef FIN_PREAMBLE_DEC
 #undef FIN_PREAMBLE_CODE
@@ -511,66 +372,6 @@ _op_net_in_tdma_g_svar (void * gen_ptr, const char * var_name, void ** var_p_ptr
 		}
 	prs_ptr = (net_in_tdma_g_state *)gen_ptr;
 
-	if (strcmp ("my_offset" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->my_offset);
-		FOUT
-		}
-	if (strcmp ("slot_length" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->slot_length);
-		FOUT
-		}
-	if (strcmp ("tx_data_rate" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->tx_data_rate);
-		FOUT
-		}
-	if (strcmp ("intrpt_flag" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->intrpt_flag);
-		FOUT
-		}
-	if (strcmp ("num_pk_sent" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_pk_sent);
-		FOUT
-		}
-	if (strcmp ("num_pk_rcvd" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_pk_rcvd);
-		FOUT
-		}
-	if (strcmp ("num_bits_sent" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_bits_sent);
-		FOUT
-		}
-	if (strcmp ("num_bits_rcvd" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_bits_rcvd);
-		FOUT
-		}
-	if (strcmp ("num_pk_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_pk_sent_stat);
-		FOUT
-		}
-	if (strcmp ("global_pk_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_pk_sent_stat);
-		FOUT
-		}
-	if (strcmp ("num_pk_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_pk_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("global_pk_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_pk_rcvd_stat);
-		FOUT
-		}
 	if (strcmp ("my_node_id" , var_name) == 0)
 		{
 		*var_p_ptr = (void *) (&prs_ptr->my_node_id);
@@ -581,66 +382,6 @@ _op_net_in_tdma_g_svar (void * gen_ptr, const char * var_name, void ** var_p_ptr
 		*var_p_ptr = (void *) (&prs_ptr->my_id);
 		FOUT
 		}
-	if (strcmp ("num_bits_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_bits_sent_stat);
-		FOUT
-		}
-	if (strcmp ("global_bits_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_bits_sent_stat);
-		FOUT
-		}
-	if (strcmp ("num_bits_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_bits_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("global_bits_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_bits_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("bits_sec_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->bits_sec_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("bits_sec_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->bits_sec_sent_stat);
-		FOUT
-		}
-	if (strcmp ("pk_sec_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->pk_sec_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("pk_sec_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->pk_sec_sent_stat);
-		FOUT
-		}
-	if (strcmp ("global_bits_sec_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_bits_sec_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("global_bits_sec_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_bits_sec_sent_stat);
-		FOUT
-		}
-	if (strcmp ("global_pk_sec_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_pk_sec_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("global_pk_sec_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_pk_sec_sent_stat);
-		FOUT
-		}
 	if (strcmp ("my_address" , var_name) == 0)
 		{
 		*var_p_ptr = (void *) (&prs_ptr->my_address);
@@ -649,46 +390,6 @@ _op_net_in_tdma_g_svar (void * gen_ptr, const char * var_name, void ** var_p_ptr
 	if (strcmp ("type" , var_name) == 0)
 		{
 		*var_p_ptr = (void *) (&prs_ptr->type);
-		FOUT
-		}
-	if (strcmp ("my_nei_num" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->my_nei_num);
-		FOUT
-		}
-	if (strcmp ("my_nei" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (prs_ptr->my_nei);
-		FOUT
-		}
-	if (strcmp ("intact_ID" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->intact_ID);
-		FOUT
-		}
-	if (strcmp ("evh11" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->evh11);
-		FOUT
-		}
-	if (strcmp ("cross_num" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->cross_num);
-		FOUT
-		}
-	if (strcmp ("location_x" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->location_x);
-		FOUT
-		}
-	if (strcmp ("location_y" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->location_y);
-		FOUT
-		}
-	if (strcmp ("location_z" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->location_z);
 		FOUT
 		}
 	*var_p_ptr = (void *)OPC_NIL;

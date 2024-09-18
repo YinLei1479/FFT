@@ -4,7 +4,7 @@
 
 
 /* This variable carries the header into the object file */
-const char net_V1_pr_c [] = "MIL_3_Tfile_Hdr_ 145A 30A op_runsim 7 66EA45BC 66EA45BC 1 ray-laptop 28918 0 0 none none 0 0 none 0 0 0 0 0 0 0 0 1bcc 1                                                                                                                                                                                                                                                                                                                                                                                                       ";
+const char net_V1_pr_c [] = "MIL_3_Tfile_Hdr_ 145A 30A modeler 7 66EA9828 66EA9828 1 ray-laptop 28918 0 0 none none 0 0 none 0 0 0 0 0 0 0 0 1bcc 1                                                                                                                                                                                                                                                                                                                                                                                                         ";
 #include <string.h>
 
 
@@ -71,14 +71,6 @@ typedef struct
 	int	                    		topo[24][24]                                    ;	/* 0 or 1 for the net topo */
 	int	                    		link_interact_pk_num                            ;	/* pk num of interact collection */
 	Evhandle	               		evh                                             ;	/* time out self intrpt */
-	int	                    		data_num_now                                    ;
-	int	                    		A[24][24]                                       ;	/* route select */
-	int	                    		dist[24]                                        ;	/* route select */
-	int	                    		path[24]                                        ;	/* route select */
-	int	                    		mark[24]                                        ;	/* route select */
-	int	                    		last_topo[24][24]                               ;
-	int	                    		route[5]                                        ;	/* the final route */
-	int	                    		route_num                                       ;	/* route hop num */
 	int	                    		node_num                                        ;
 	int	                    		topo_address[24][3]                             ;
 	} net_V1_state;
@@ -93,14 +85,6 @@ typedef struct
 #define topo                    		op_sv_ptr->topo
 #define link_interact_pk_num    		op_sv_ptr->link_interact_pk_num
 #define evh                     		op_sv_ptr->evh
-#define data_num_now            		op_sv_ptr->data_num_now
-#define A                       		op_sv_ptr->A
-#define dist                    		op_sv_ptr->dist
-#define path                    		op_sv_ptr->path
-#define mark                    		op_sv_ptr->mark
-#define last_topo               		op_sv_ptr->last_topo
-#define route                   		op_sv_ptr->route
-#define route_num               		op_sv_ptr->route_num
 #define node_num                		op_sv_ptr->node_num
 #define topo_address            		op_sv_ptr->topo_address
 
@@ -121,7 +105,7 @@ typedef struct
 enum { _op_block_origin = __LINE__ + 2};
 #endif
 
-static void Initial(void)
+/*static void Initial(void)
 	{
 	int i;
 	FIN(Initial(void));
@@ -198,7 +182,7 @@ static void Output(int start, int last)
 		route[i]=res[i];
 	route_num=n;
 	FOUT;
-}	
+}*/	
 		
 
 /* End of Function Block */
@@ -246,7 +230,6 @@ net_V1 (OP_SIM_CONTEXT_ARG_OPT)
 		Packet* pkptr;
 		int source;
 		int i,j;
-		int data_dest,data_type;
 		
 		/* End of Temporary Variables */
 
@@ -270,14 +253,13 @@ net_V1 (OP_SIM_CONTEXT_ARG_OPT)
 				to_interact_next_hop=0xFF;
 				interact_pk_num=0;
 				link_interact_pk_num=0;
-				data_num_now=-1;
+				//data_num_now=-1;
 				node_num=13;
 				
 				for(i=0;i<24;i++)
 					for(j=0;j<24;j++)
 						{
 						topo[i][j]=0;
-						last_topo[i][j]=0;
 						}
 				
 				for(i=0;i<24;i++)
@@ -710,7 +692,7 @@ net_V1 (OP_SIM_CONTEXT_ARG_OPT)
 					op_pk_send(pkptr,TX_OUT);
 					}
 				
-				if(type==0x15)//appointment_req_G
+				/*if(type==0x15)//appointment_req_G
 					{
 					op_pk_nfd_get(pkptr,"DEST_ID",&data_dest);
 					op_pk_nfd_get(pkptr,"Num",&data_num_now);
@@ -733,6 +715,7 @@ net_V1 (OP_SIM_CONTEXT_ARG_OPT)
 					
 					//dabao fasong
 					}
+				*/
 				}
 				FSM_PROFILE_SECTION_OUT (state5_enter_exec)
 
@@ -793,14 +776,6 @@ _op_net_V1_terminate (OP_SIM_CONTEXT_ARG_OPT)
 #undef topo
 #undef link_interact_pk_num
 #undef evh
-#undef data_num_now
-#undef A
-#undef dist
-#undef path
-#undef mark
-#undef last_topo
-#undef route
-#undef route_num
 #undef node_num
 #undef topo_address
 
@@ -907,46 +882,6 @@ _op_net_V1_svar (void * gen_ptr, const char * var_name, void ** var_p_ptr)
 	if (strcmp ("evh" , var_name) == 0)
 		{
 		*var_p_ptr = (void *) (&prs_ptr->evh);
-		FOUT
-		}
-	if (strcmp ("data_num_now" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->data_num_now);
-		FOUT
-		}
-	if (strcmp ("A" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (prs_ptr->A);
-		FOUT
-		}
-	if (strcmp ("dist" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (prs_ptr->dist);
-		FOUT
-		}
-	if (strcmp ("path" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (prs_ptr->path);
-		FOUT
-		}
-	if (strcmp ("mark" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (prs_ptr->mark);
-		FOUT
-		}
-	if (strcmp ("last_topo" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (prs_ptr->last_topo);
-		FOUT
-		}
-	if (strcmp ("route" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (prs_ptr->route);
-		FOUT
-		}
-	if (strcmp ("route_num" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->route_num);
 		FOUT
 		}
 	if (strcmp ("node_num" , var_name) == 0)

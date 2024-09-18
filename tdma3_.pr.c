@@ -4,7 +4,7 @@
 
 
 /* This variable carries the header into the object file */
-const char tdma3__pr_c [] = "MIL_3_Tfile_Hdr_ 145A 30A op_runsim 7 66EA469F 66EA469F 1 ray-laptop 28918 0 0 none none 0 0 none 0 0 0 0 0 0 0 0 1bcc 1                                                                                                                                                                                                                                                                                                                                                                                                       ";
+const char tdma3__pr_c [] = "MIL_3_Tfile_Hdr_ 145A 30A modeler 7 66EA9565 66EA9565 1 ray-laptop 28918 0 0 none none 0 0 none 0 0 0 0 0 0 0 0 1bcc 1                                                                                                                                                                                                                                                                                                                                                                                                         ";
 #include <string.h>
 
 
@@ -80,46 +80,20 @@ typedef struct
 	int	                    		my_offset                                       ;
 	double	                 		slot_length                                     ;
 	double	                 		tx_data_rate                                    ;
-	int	                    		intrpt_flag                                     ;
-	int	                    		num_pk_sent                                     ;
-	int	                    		num_pk_rcvd                                     ;
-	int	                    		num_bits_sent                                   ;
-	int	                    		num_bits_rcvd                                   ;
-	Stathandle	             		num_pk_sent_stat                                ;
-	Stathandle	             		global_pk_sent_stat                             ;
-	Stathandle	             		num_pk_rcvd_stat                                ;
-	Stathandle	             		global_pk_rcvd_stat                             ;
 	Objid	                  		my_node_id                                      ;
 	Objid	                  		my_id                                           ;
-	Stathandle	             		num_bits_sent_stat                              ;
-	Stathandle	             		global_bits_sent_stat                           ;
-	Stathandle	             		num_bits_rcvd_stat                              ;
-	Stathandle	             		global_bits_rcvd_stat                           ;
-	Stathandle	             		bits_sec_rcvd_stat                              ;
-	Stathandle	             		bits_sec_sent_stat                              ;
-	Stathandle	             		pk_sec_rcvd_stat                                ;
-	Stathandle	             		pk_sec_sent_stat                                ;
-	Stathandle	             		global_bits_sec_rcvd_stat                       ;
-	Stathandle	             		global_bits_sec_sent_stat                       ;
-	Stathandle	             		global_pk_sec_rcvd_stat                         ;
-	Stathandle	             		global_pk_sec_sent_stat                         ;
 	int	                    		my_address                                      ;
 	int	                    		type                                            ;
-	int	                    		my_neighbor[24]                                 ;	/* neighbor address */
 	int	                    		nei_count                                       ;	/* number of neighbor */
-	int	                    		my_two_nei_count_sum                            ;	/* two hop neighbor number */
 	int	                    		my_two_nei[24]                                  ;	/* two hop neighbor address */
 	int	                    		is_my_slot                                      ;	/* 0 or 1 for is my slot ? */
-	int	                    		my_slot_end                                     ;
 	int	                    		interactive_id                                  ;	/* interactive node address */
 	Evhandle	               		evh1                                            ;	/* initiai wait self intrpt */
-	int	                    		WAIT                                            ;	/* need still to wait */
 	int	                    		num_slots                                       ;	/* all slot number */
 	int	                    		my_node_state                                   ;
 	int	                    		my_clock_level                                  ;
 	int	                    		a_frame_record[8][7]                            ;	/* record in a frame                                 */
 	                        		                                                	/* node_id + nei_offset + CL + Location + node_state */
-	int	                    		INTACT_FLAG                                     ;	/* interact intrpt is coming */
 	int	                    		a_frame_record_last[8][7]                       ;	/* neighbor in last frame */
 	int	                    		nei_num_last                                    ;
 	int	                    		node_num                                        ;
@@ -132,45 +106,19 @@ typedef struct
 #define my_offset               		op_sv_ptr->my_offset
 #define slot_length             		op_sv_ptr->slot_length
 #define tx_data_rate            		op_sv_ptr->tx_data_rate
-#define intrpt_flag             		op_sv_ptr->intrpt_flag
-#define num_pk_sent             		op_sv_ptr->num_pk_sent
-#define num_pk_rcvd             		op_sv_ptr->num_pk_rcvd
-#define num_bits_sent           		op_sv_ptr->num_bits_sent
-#define num_bits_rcvd           		op_sv_ptr->num_bits_rcvd
-#define num_pk_sent_stat        		op_sv_ptr->num_pk_sent_stat
-#define global_pk_sent_stat     		op_sv_ptr->global_pk_sent_stat
-#define num_pk_rcvd_stat        		op_sv_ptr->num_pk_rcvd_stat
-#define global_pk_rcvd_stat     		op_sv_ptr->global_pk_rcvd_stat
 #define my_node_id              		op_sv_ptr->my_node_id
 #define my_id                   		op_sv_ptr->my_id
-#define num_bits_sent_stat      		op_sv_ptr->num_bits_sent_stat
-#define global_bits_sent_stat   		op_sv_ptr->global_bits_sent_stat
-#define num_bits_rcvd_stat      		op_sv_ptr->num_bits_rcvd_stat
-#define global_bits_rcvd_stat   		op_sv_ptr->global_bits_rcvd_stat
-#define bits_sec_rcvd_stat      		op_sv_ptr->bits_sec_rcvd_stat
-#define bits_sec_sent_stat      		op_sv_ptr->bits_sec_sent_stat
-#define pk_sec_rcvd_stat        		op_sv_ptr->pk_sec_rcvd_stat
-#define pk_sec_sent_stat        		op_sv_ptr->pk_sec_sent_stat
-#define global_bits_sec_rcvd_stat		op_sv_ptr->global_bits_sec_rcvd_stat
-#define global_bits_sec_sent_stat		op_sv_ptr->global_bits_sec_sent_stat
-#define global_pk_sec_rcvd_stat 		op_sv_ptr->global_pk_sec_rcvd_stat
-#define global_pk_sec_sent_stat 		op_sv_ptr->global_pk_sec_sent_stat
 #define my_address              		op_sv_ptr->my_address
 #define type                    		op_sv_ptr->type
-#define my_neighbor             		op_sv_ptr->my_neighbor
 #define nei_count               		op_sv_ptr->nei_count
-#define my_two_nei_count_sum    		op_sv_ptr->my_two_nei_count_sum
 #define my_two_nei              		op_sv_ptr->my_two_nei
 #define is_my_slot              		op_sv_ptr->is_my_slot
-#define my_slot_end             		op_sv_ptr->my_slot_end
 #define interactive_id          		op_sv_ptr->interactive_id
 #define evh1                    		op_sv_ptr->evh1
-#define WAIT                    		op_sv_ptr->WAIT
 #define num_slots               		op_sv_ptr->num_slots
 #define my_node_state           		op_sv_ptr->my_node_state
 #define my_clock_level          		op_sv_ptr->my_clock_level
 #define a_frame_record          		op_sv_ptr->a_frame_record
-#define INTACT_FLAG             		op_sv_ptr->INTACT_FLAG
 #define a_frame_record_last     		op_sv_ptr->a_frame_record_last
 #define nei_num_last            		op_sv_ptr->nei_num_last
 #define node_num                		op_sv_ptr->node_num
@@ -356,12 +304,9 @@ tdma3_ (OP_SIM_CONTEXT_ARG_OPT)
 		
 		Objid 	tx_id, comp_id, tx_ch_id; 
 		
-		//double  floor();
-		//double  fmod();
-		
 		int	used_slots;
 		int	current_offset;
-		int	next_offset;
+		//int	next_offset;
 		
 		
 		double	current_time;
@@ -369,12 +314,11 @@ tdma3_ (OP_SIM_CONTEXT_ARG_OPT)
 		double	pk_len;
 		double	pk_time;
 		
-		double	my_next_slot_time;
+		//double	my_next_slot_time;
 		
 		int		current_intrpt_type;
 		
 		int i,j;
-		int nei_temp[8];
 		/* End of Temporary Variables */
 
 
@@ -483,9 +427,6 @@ tdma3_ (OP_SIM_CONTEXT_ARG_OPT)
 				FSM_PROFILE_SECTION_IN ("tdma3_ [fr_rx enter execs]", state2_enter_exec)
 				{
 				int next_hop;
-				int net_id;
-				int have_intact;
-				int clock_level;
 				
 				pkptr =  op_pk_get (RX_IN_STRM);
 				op_pk_nfd_get (pkptr, "TYPE", &type);
@@ -509,39 +450,6 @@ tdma3_ (OP_SIM_CONTEXT_ARG_OPT)
 						op_pk_send(pkptr,SINK_OUT_STRM);
 						}
 					}
-				
-				
-				
-				
-				//pk_len = (double) op_pk_total_size_get (pkptr);
-				
-				/** Record Statistics **/
-				/** The bits/sec or packets/sec statistics are recorded in		**/
-				/** bits and packets, and then the OPNET statistic "capture		**/
-				/** mode" is used to obtain a bucketized sum over time.			**/
-				/** Record extra 0.0 data-points to enable proper computation	**/
-				/** of the "sum/time" based statistics.							**/
-				
-				/*op_stat_write (num_pk_rcvd_stat, 1.0);
-				op_stat_write (pk_sec_rcvd_stat, 1.0);
-				op_stat_write (pk_sec_rcvd_stat, 0.0);
-				
-				op_stat_write (global_pk_rcvd_stat, 1.0);
-				op_stat_write (global_pk_sec_rcvd_stat, 1.0);
-				op_stat_write (global_pk_sec_rcvd_stat, 0.0);
-				
-				op_stat_write (num_bits_rcvd_stat, pk_len);
-				op_stat_write (bits_sec_rcvd_stat, pk_len);
-				op_stat_write (bits_sec_rcvd_stat, 0.0);
-				
-				op_stat_write (global_bits_rcvd_stat, pk_len);
-				op_stat_write (global_bits_sec_rcvd_stat, pk_len);
-				op_stat_write (global_bits_sec_rcvd_stat, 0.0);*/
-				
-				//op_pk_send (pkptr, SINK_OUT_STRM);
-				
-				
-				
 				
 				}
 				FSM_PROFILE_SECTION_OUT (state2_enter_exec)
@@ -781,61 +689,7 @@ tdma3_ (OP_SIM_CONTEXT_ARG_OPT)
 void
 _op_tdma3__diag (OP_SIM_CONTEXT_ARG_OPT)
 	{
-#if defined (OPD_ALLOW_ODB)
-#if !defined (VOSD_NO_FIN)
-	int _op_block_origin = __LINE__+1;
-#endif
-
-	FIN_MT (_op_tdma3__diag ())
-
-	if (1)
-		{
-		/* Temporary Variables */
-		Packet*	pkptr;
-		
-		Objid 	tx_id, comp_id, tx_ch_id; 
-		
-		//double  floor();
-		//double  fmod();
-		
-		int	used_slots;
-		int	current_offset;
-		int	next_offset;
-		
-		
-		double	current_time;
-		double	time_left_in_slot;
-		double	pk_len;
-		double	pk_time;
-		
-		double	my_next_slot_time;
-		
-		int		current_intrpt_type;
-		
-		int i,j;
-		int nei_temp[8];
-		/* End of Temporary Variables */
-
-		/* Diagnostic Block */
-
-		BINIT
-		{
-		printf ("Object ID = %d Current Sim Time = %g\n", my_id, op_sim_time ());
-		printf ("My TDMA Offset = %d\n", my_offset);
-		printf ("Number of TDMA Slots = %d\n", num_slots);
-		printf ("Number of Packets Received = %d\n", num_pk_rcvd);
-		printf ("Number of Bits Received = %d\n", num_bits_rcvd);
-		printf ("Number of Packets Sent = %d\n", num_pk_sent);
-		printf ("Number of Bits Sent = %d\n", num_bits_sent);
-		
-		}
-
-		/* End of Diagnostic Block */
-
-		}
-
-	FOUT
-#endif /* OPD_ALLOW_ODB */
+	/* No Diagnostic Block */
 	}
 
 
@@ -862,45 +716,19 @@ _op_tdma3__terminate (OP_SIM_CONTEXT_ARG_OPT)
 #undef my_offset
 #undef slot_length
 #undef tx_data_rate
-#undef intrpt_flag
-#undef num_pk_sent
-#undef num_pk_rcvd
-#undef num_bits_sent
-#undef num_bits_rcvd
-#undef num_pk_sent_stat
-#undef global_pk_sent_stat
-#undef num_pk_rcvd_stat
-#undef global_pk_rcvd_stat
 #undef my_node_id
 #undef my_id
-#undef num_bits_sent_stat
-#undef global_bits_sent_stat
-#undef num_bits_rcvd_stat
-#undef global_bits_rcvd_stat
-#undef bits_sec_rcvd_stat
-#undef bits_sec_sent_stat
-#undef pk_sec_rcvd_stat
-#undef pk_sec_sent_stat
-#undef global_bits_sec_rcvd_stat
-#undef global_bits_sec_sent_stat
-#undef global_pk_sec_rcvd_stat
-#undef global_pk_sec_sent_stat
 #undef my_address
 #undef type
-#undef my_neighbor
 #undef nei_count
-#undef my_two_nei_count_sum
 #undef my_two_nei
 #undef is_my_slot
-#undef my_slot_end
 #undef interactive_id
 #undef evh1
-#undef WAIT
 #undef num_slots
 #undef my_node_state
 #undef my_clock_level
 #undef a_frame_record
-#undef INTACT_FLAG
 #undef a_frame_record_last
 #undef nei_num_last
 #undef node_num
@@ -979,51 +807,6 @@ _op_tdma3__svar (void * gen_ptr, const char * var_name, void ** var_p_ptr)
 		*var_p_ptr = (void *) (&prs_ptr->tx_data_rate);
 		FOUT
 		}
-	if (strcmp ("intrpt_flag" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->intrpt_flag);
-		FOUT
-		}
-	if (strcmp ("num_pk_sent" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_pk_sent);
-		FOUT
-		}
-	if (strcmp ("num_pk_rcvd" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_pk_rcvd);
-		FOUT
-		}
-	if (strcmp ("num_bits_sent" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_bits_sent);
-		FOUT
-		}
-	if (strcmp ("num_bits_rcvd" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_bits_rcvd);
-		FOUT
-		}
-	if (strcmp ("num_pk_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_pk_sent_stat);
-		FOUT
-		}
-	if (strcmp ("global_pk_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_pk_sent_stat);
-		FOUT
-		}
-	if (strcmp ("num_pk_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_pk_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("global_pk_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_pk_rcvd_stat);
-		FOUT
-		}
 	if (strcmp ("my_node_id" , var_name) == 0)
 		{
 		*var_p_ptr = (void *) (&prs_ptr->my_node_id);
@@ -1032,66 +815,6 @@ _op_tdma3__svar (void * gen_ptr, const char * var_name, void ** var_p_ptr)
 	if (strcmp ("my_id" , var_name) == 0)
 		{
 		*var_p_ptr = (void *) (&prs_ptr->my_id);
-		FOUT
-		}
-	if (strcmp ("num_bits_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_bits_sent_stat);
-		FOUT
-		}
-	if (strcmp ("global_bits_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_bits_sent_stat);
-		FOUT
-		}
-	if (strcmp ("num_bits_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->num_bits_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("global_bits_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_bits_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("bits_sec_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->bits_sec_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("bits_sec_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->bits_sec_sent_stat);
-		FOUT
-		}
-	if (strcmp ("pk_sec_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->pk_sec_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("pk_sec_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->pk_sec_sent_stat);
-		FOUT
-		}
-	if (strcmp ("global_bits_sec_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_bits_sec_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("global_bits_sec_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_bits_sec_sent_stat);
-		FOUT
-		}
-	if (strcmp ("global_pk_sec_rcvd_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_pk_sec_rcvd_stat);
-		FOUT
-		}
-	if (strcmp ("global_pk_sec_sent_stat" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->global_pk_sec_sent_stat);
 		FOUT
 		}
 	if (strcmp ("my_address" , var_name) == 0)
@@ -1104,19 +827,9 @@ _op_tdma3__svar (void * gen_ptr, const char * var_name, void ** var_p_ptr)
 		*var_p_ptr = (void *) (&prs_ptr->type);
 		FOUT
 		}
-	if (strcmp ("my_neighbor" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (prs_ptr->my_neighbor);
-		FOUT
-		}
 	if (strcmp ("nei_count" , var_name) == 0)
 		{
 		*var_p_ptr = (void *) (&prs_ptr->nei_count);
-		FOUT
-		}
-	if (strcmp ("my_two_nei_count_sum" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->my_two_nei_count_sum);
 		FOUT
 		}
 	if (strcmp ("my_two_nei" , var_name) == 0)
@@ -1129,11 +842,6 @@ _op_tdma3__svar (void * gen_ptr, const char * var_name, void ** var_p_ptr)
 		*var_p_ptr = (void *) (&prs_ptr->is_my_slot);
 		FOUT
 		}
-	if (strcmp ("my_slot_end" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->my_slot_end);
-		FOUT
-		}
 	if (strcmp ("interactive_id" , var_name) == 0)
 		{
 		*var_p_ptr = (void *) (&prs_ptr->interactive_id);
@@ -1142,11 +850,6 @@ _op_tdma3__svar (void * gen_ptr, const char * var_name, void ** var_p_ptr)
 	if (strcmp ("evh1" , var_name) == 0)
 		{
 		*var_p_ptr = (void *) (&prs_ptr->evh1);
-		FOUT
-		}
-	if (strcmp ("WAIT" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->WAIT);
 		FOUT
 		}
 	if (strcmp ("num_slots" , var_name) == 0)
@@ -1167,11 +870,6 @@ _op_tdma3__svar (void * gen_ptr, const char * var_name, void ** var_p_ptr)
 	if (strcmp ("a_frame_record" , var_name) == 0)
 		{
 		*var_p_ptr = (void *) (prs_ptr->a_frame_record);
-		FOUT
-		}
-	if (strcmp ("INTACT_FLAG" , var_name) == 0)
-		{
-		*var_p_ptr = (void *) (&prs_ptr->INTACT_FLAG);
 		FOUT
 		}
 	if (strcmp ("a_frame_record_last" , var_name) == 0)
